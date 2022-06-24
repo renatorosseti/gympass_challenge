@@ -12,7 +12,36 @@ subsets of the input set, in any order the candidate chooses.
 Please include the test cases you used for your solution.
  **/
 
+//En entreguei assim
 object Solution {
+    fun fetchSubsets(input: List<Int>): List<List<Int>> {
+        var subsets = HashSet<List<Int>>()
+        subsets.add(emptyList())
+        for (index in input.indices) {
+            subsets.add(listOf(input[index]))
+            subsets.addAll(createGroup(subsets, input, index))
+        }
+        return subsets.toList().sortedBy { it.size }
+    }
+
+    private fun createGroup(
+        group: HashSet<List<Int>>,
+        input: List<Int>,
+        index: Int
+    ): HashSet<List<Int>> {
+        var newGroup = HashSet<List<Int>>()
+        for (element in group) {
+            if (!element.contains(input[index])) {
+                val list = element + input[index]
+                newGroup.add(list)
+            }
+        }
+        return newGroup
+    }
+}
+
+// Depois eu olhei e vi que poderia ter entre assim:
+object Solution2 {
     fun fetchSubsets(input: List<Int>): List<List<Int>> {
         var subsets = HashSet<List<Int>>()
         subsets.add(emptyList())
